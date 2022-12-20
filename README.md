@@ -1,6 +1,6 @@
 # Kurulum
 
-1. Projeyi indirmek.
+1. Projeyi İndirmek
 
    - Git CLI <br>
      git clone https://github.com/beratcmn/word-addin.git
@@ -8,7 +8,7 @@
    - Website <br>
      ![](/public/ss1.png)
 
-2. Projeyi Açma
+2. Projeyi Açmak
 
    - Gerekli kütüphaneleri yüklemek için: <br>
      `npm install`
