@@ -1,0 +1,86 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!-- This file shows how to design a first-run page that provides a welcome screen to the user about the features of the add-in. -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contoso Task Pane Add-in</title>
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+
+    <!-- For more information on Fluent UI, visit https://developer.microsoft.com/fluentui#/. -->
+    <link rel="stylesheet"
+        href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />
+
+    <!-- Template styles -->
+    <link href="taskpane.css" rel="stylesheet" type="text/css" />
+
+    <!-- Tailwind CLI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<!-- <body class="ms-font-m ms-welcome ms-Fabric">
+    <header class="ms-welcome__header ms-bgColor-neutralLighter">
+        <img width="90" height="90" src="../../assets/logo-filled.png" alt="Contoso" title="Contoso" />
+        <h1 class="ms-font-su">Test Add-In</h1>
+    </header>
+    <section id="sideload-msg" class="ms-welcome__main">
+        <h2 class="ms-font-xl">Please sideload your add-in to see app body.</h2>
+    </section>
+    <main id="app-body" class="ms-welcome__main">
+
+        <h2 class="ms-font-xl"> Normal HTML, CSS ve JS kullanabiliyoruz burada</h2>
+
+        <p class="ms-font-l"><b>Test</b> tuşu ile yazı yazabilirsin</p>
+        <div role="button" id="run" class="ms-welcome__action ms-Button ms-Button--hero ms-font-xl">
+            <span class="ms-Button-label">Run</span>
+        </div>
+    </main>
+</body> -->
+
+
+<body>
+
+    <div class="w-full h-full py-10 px-2 flex flex-col gap-y-10">
+
+        <header class="w-full flex flex-col gap-y-10">
+            <div class="mx-auto">
+                <img width="100" height="100" src="../../assets/logo-filled.png" alt="Contoso" title="Contoso" />
+            </div>
+
+            <h1 class="text-center text-3xl font-semibold">Deneme Word Add-On'u</h1>
+        </header>
+
+        <section id="sideload-msg" class="ms-welcome__main">
+            <h2 class="ms-font-xl">Please sideload your add-in to see app body.</h2>
+        </section>
+
+        <main id="app-body">
+            <!-- <div class="flex flex-col gap-y-4">
+                <p>Burada küçük bir web engine çalışıyor.</p>
+                <p>İstediğim gibi HTML, CSS ve JS kullanabilirim.</p>
+                <p>Ayrıca Office JS API'lerini de kullanabilirim.</p>
+                <p>Sınırları zorladım, TailwindCSS gibi external bir library'de kullanabiliyorum!</p>
+            </div>
+
+
+            <h2 class="text-xl mt-10">JS API test</h2>
+
+            <div role="button" id="run" class="bg-gray-700 w-48 mt-3 mx-auto text-white px-5 py-3 rounded-xl flex">
+                <span class="mx-auto">Test Buttonu</span>
+            </div> -->
+
+            <p class="mt-10 text-sm" id="output-text">Deneme</p>
+        </main>
+
+    </div>
+
+</body>
+
+</html>
