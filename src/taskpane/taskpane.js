@@ -5,18 +5,24 @@
 
 /* global document, Office, Word */
 
+let selection = "";
+let inputTag = "";
+let nodes = [];
+
 Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
     document.getElementById("sideload-msg").style.display = "none";
     document.getElementById("app-body").style.display = "block";
     //! document.getElementById("run").onclick = test;
     //! document.getElementById("test").onclick = test;
+    document.getElementById("add-node-button").onclick = addNode;
+    document.getElementById("new-tag-input").onchange = updateInputTag;
 
     //? eslint-disable-next-line no-undef
     //? setInterval(test2, 500);
 
     //? Selection Hook
-    Office.context.document.addHandlerAsync("documentSelectionChanged", test3, function (result) {});
+    Office.context.document.addHandlerAsync("documentSelectionChanged", onSelection, function () {});
   }
 });
 
@@ -27,7 +33,8 @@ export async function run() {
      */
 
     // insert a paragraph at the end of the document.
-    const paragraph = context.document.body.insertParagraph("Berat Çimen", Word.InsertLocation.end);
+    // const paragraph = context.document.body.insertParagraph("Berat Çimen", Word.InsertLocation.end);
+    const paragraph = context.document.body.insertParagraph(inputTag, Word.InsertLocation.end);
 
     // change the paragraph color to blue.
     paragraph.font.color = "red";
@@ -68,6 +75,52 @@ export async function test() {
   });
 }
 
+async function onSelection() {
+  Office.context.document.getSelectedDataAsync(Office.CoercionType.Text, function (asyncResult) {
+    if (asyncResult.status == Office.AsyncResultStatus.Failed) {
+      document.getElementById("output-text").innerHTML = "Action failed. Error: " + asyncResult.error.message;
+    } else {
+      selection = asyncResult.value.trim();
+      // inputTag = document.getElementById("new-tag-input").value;
+      document.getElementById("output-text").innerHTML = "" + selection;
+    }
+  });
+
+  await Office.context.sync();
+}
+
+function updateInputTag() {
+  inputTag = document.getElementById("new-tag-input").value;
+}
+
+function addNode() {
+  nodes.push({
+    tag: inputTag,
+    text: selection,
+  });
+
+  const nodeParent = document.getElementById("nodes");
+  nodeParent.innerHTML = "";
+
+  nodes.forEach((element) => {
+    // const newInner = element.tag + " " + element.text + "<br>";
+    // const classes = "flex flex-col h-fit bg-red-500 px-3 py-2 rounded-md";
+    // const newInner = `<div class="${classes}">` + `<p>${element.tag}</p>` + `<p>${element.text}</p>` + "</div>";
+    // nodeParent.innerHTML = nodeParent.innerHTML + newInner;
+
+    const parentElement = document.createElement("div");
+    parentElement.classList.add("flex", "flex-col", "h-fit", "bg-gray-800", "px-3", "py-2", "rounded-md", "text-white");
+    const tagElement = document.createElement("p");
+    tagElement.classList.add("font-semibold", "border-b", "border-white", "italic");
+    tagElement.innerHTML = element.tag;
+    const textElement = document.createElement("p");
+    textElement.innerHTML = element.text;
+    parentElement.appendChild(tagElement);
+    parentElement.appendChild(textElement);
+    nodeParent.appendChild(parentElement);
+  });
+}
+
 // export async function test2() {
 //   return Word.run(async (context) => {
 //     context.document.getSelectedDataAsync(Office.CoercionType.Text, function (asyncResult) {
@@ -95,15 +148,3 @@ export async function test() {
 
 //   await Office.context.sync();
 // }
-
-async function test3() {
-  Office.context.document.getSelectedDataAsync(Office.CoercionType.Text, function (asyncResult) {
-    if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-      document.getElementById("output-text").innerHTML = "Action failed. Error: " + asyncResult.error.message;
-    } else {
-      document.getElementById("output-text").innerHTML = "Selected text: " + asyncResult.value;
-    }
-  });
-
-  await Office.context.sync();
-}

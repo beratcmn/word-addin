@@ -10,6 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Contoso Task Pane Add-in</title>
 
+    <!-- Tailwind CLI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <!-- Office JavaScript API -->
     <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
 
@@ -19,9 +22,6 @@
 
     <!-- Template styles -->
     <link href="taskpane.css" rel="stylesheet" type="text/css" />
-
-    <!-- Tailwind CLI -->
-    <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 
@@ -42,41 +42,56 @@
             <span class="ms-Button-label">Run</span>
         </div>
     </main>
+
+    <div role="button" id="run" class="bg-gray-700 w-48 mx-auto text-white px-5 py-3 rounded-xl flex">
+                    <span class="mx-auto">Test Buttonu</span>
+                </div> 
 </body> -->
 
 
-<body>
+<body class="h-screen">
 
-    <div class="w-full h-full py-10 px-2 flex flex-col gap-y-10">
-
-        <header class="w-full flex flex-col gap-y-10">
-            <div class="mx-auto">
-                <img width="100" height="100" src="../../assets/logo-filled.png" alt="Contoso" title="Contoso" />
-            </div>
-
-            <h1 class="text-center text-3xl font-semibold">Deneme Word Add-On'u</h1>
-        </header>
+    <div class="w-full h-full overflow-hidden">
 
         <section id="sideload-msg" class="ms-welcome__main">
-            <h2 class="ms-font-xl">Please sideload your add-in to see app body.</h2>
+            <!-- <h2 class="ms-font-xl">Please sideload your add-in to see app body.</h2> -->
         </section>
 
-        <main id="app-body">
-            <!-- <div class="flex flex-col gap-y-4">
-                <p>Burada küçük bir web engine çalışıyor.</p>
-                <p>İstediğim gibi HTML, CSS ve JS kullanabilirim.</p>
-                <p>Ayrıca Office JS API'lerini de kullanabilirim.</p>
-                <p>Sınırları zorladım, TailwindCSS gibi external bir library'de kullanabiliyorum!</p>
+        <main id="app-body" class="w-full h-full">
+
+            <!-- Section 1 -->
+            <div class="h-2/3 w-full #bg-blue-500/20 flex flex-col">
+
+                <!--? Current Nodes -->
+                <div id="nodes"
+                    class="h-full w-full flex flex-wrap gap-x-3 gap-y-2 px-3 content-start overflow-y-auto">
+
+                </div>
+
+
+                <!--? Input and Button -->
+                <div
+                    class="mt-auto w-full h-40 #bg-red-500/30 flex flex-col gap-y-2 items-center justify-end px-5 py-2 border-t border-b border-black">
+
+                    <p class="text-base text-gray-900" id="output-text"></p>
+
+                    <input id="new-tag-input" type="text" placeholder="Enter Tag"
+                        class="w-full h-10 p-2 outline-none rounded-xl">
+
+                    <button id="add-node-button" type="button"
+                        class="h-10 w-2/3 bg-blue-500 rounded-xl text-white text-xl">
+                        Add Tag
+                    </button>
+
+                </div>
+
             </div>
 
+            <!-- Section 2 -->
+            <div class="h-1/3 w-full #bg-green-500/20">
+                Recommendations
+            </div>
 
-            <h2 class="text-xl mt-10">JS API test</h2>
-
-            <div role="button" id="run" class="bg-gray-700 w-48 mt-3 mx-auto text-white px-5 py-3 rounded-xl flex">
-                <span class="mx-auto">Test Buttonu</span>
-            </div> -->
-
-            <p class="mt-10 text-sm" id="output-text">Deneme</p>
         </main>
 
     </div>
