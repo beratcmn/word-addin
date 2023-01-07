@@ -5,9 +5,20 @@
 
 /* global document, Office, Word */
 
+class Node {
+  constructor(tag, text, id, parents = [], children = []) {
+    this.tag = tag;
+    this.text = text;
+    this.id = id;
+    this.parents = parents;
+    this.children = children;
+  }
+}
+
 let selection = "";
 let inputTag = "";
 let nodes = [];
+let selectedID = 0;
 
 Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
@@ -94,10 +105,11 @@ function updateInputTag() {
 }
 
 function addNode() {
-  nodes.push({
-    tag: inputTag,
-    text: selection,
-  });
+  const min = 100000;
+  const max = 999999;
+  const randomInt = Math.floor(Math.random() * (max - min)) + min;
+
+  nodes.push(new Node(inputTag, selection, randomInt));
 
   const nodeParent = document.getElementById("nodes");
   nodeParent.innerHTML = "";
@@ -109,7 +121,23 @@ function addNode() {
     // nodeParent.innerHTML = nodeParent.innerHTML + newInner;
 
     const parentElement = document.createElement("div");
-    parentElement.classList.add("flex", "flex-col", "h-fit", "bg-gray-800", "px-3", "py-2", "rounded-md", "text-white");
+    parentElement.classList.add(
+      "flex",
+      "flex-col",
+      "h-fit",
+      "bg-gray-800",
+      "px-3",
+      "py-2",
+      "rounded-md",
+      "text-white",
+      "cursor-pointer",
+      "hover:bg-gray-600",
+      "hover:shadow-md",
+      "transition-all",
+      "duration-300"
+      // "outline",
+      // "outline-red-700"
+    );
     const tagElement = document.createElement("p");
     tagElement.classList.add("font-semibold", "border-b", "border-white", "italic");
     tagElement.innerHTML = element.tag;
@@ -117,8 +145,23 @@ function addNode() {
     textElement.innerHTML = element.text;
     parentElement.appendChild(tagElement);
     parentElement.appendChild(textElement);
+
+    parentElement.onclick = function () {
+      if (selectedID === 0) {
+        selectedID = element.id;
+      } else {
+        element.parents.push(selectedID);
+        nodes.find((node) => node.id === selectedID).children.push(element.id);
+        selectedID = 0;
+      }
+
+      console.log(nodes);
+    };
+
     nodeParent.appendChild(parentElement);
   });
+
+  // console.log(nodes);
 }
 
 // export async function test2() {
