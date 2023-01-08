@@ -169,6 +169,7 @@ function addNode() {
         element.parents.push(selectedID);
         nodes.find((node) => node.id === selectedID).children.push(element.id);
         relations.push(new Relation(selectedID, element.id, inputRelation));
+        generateRelations();
         selectedID = 0;
       }
 
@@ -200,6 +201,10 @@ function addNode() {
   });
 
   // console.log(nodes);
+}
+
+function generateRelations() {
+  // new leader.LeaderLine(document.getElementById("start"), document.getElementById("end"));
 }
 
 // export async function test2() {
