@@ -15,10 +15,20 @@ class Node {
   }
 }
 
+class Relation {
+  constructor(a, b, relation) {
+    this.a = a;
+    this.b = b;
+    this.relation = relation;
+  }
+}
+
 let selection = "";
 let inputTag = "";
 let nodes = [];
+let relations = [];
 let selectedID = 0;
+let relationPopUp;
 
 Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
@@ -149,12 +159,35 @@ function addNode() {
       if (selectedID === 0) {
         selectedID = element.id;
       } else {
+        //? The part where new relation is created
         element.parents.push(selectedID);
         nodes.find((node) => node.id === selectedID).children.push(element.id);
+        relations.push(new Relation(selectedID, element.id, "test"));
         selectedID = 0;
       }
 
-      console.log(nodes);
+      //? Add Relation Pop-up
+      if (selectedID === 0) {
+        // console.log("popup should be hidden");
+        nodeParent.removeChild(relationPopUp);
+      } else {
+        // console.log("popup should be visible");
+        relationPopUp = document.createElement("div");
+        relationPopUp.classList.add(
+          "absolute",
+          "bottom-2",
+          "left-8",
+          "bg-green-500",
+          "p-2",
+          "text-base",
+          "text-white",
+          "rounded-lg"
+        );
+        relationPopUp.innerHTML = "Select another node to create a relation!";
+        nodeParent.appendChild(relationPopUp);
+      }
+
+      // console.log(relations);
     };
 
     nodeParent.appendChild(parentElement);
