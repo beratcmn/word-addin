@@ -126,17 +126,16 @@ function addNode() {
       "flex-col",
       "h-fit",
       "bg-gray-800",
-      "px-3",
-      "py-2",
+      "px-1",
+      "py-1",
       "rounded-md",
       "text-white",
+      "text-sm",
       "cursor-pointer",
       "hover:bg-gray-600",
       "hover:shadow-md",
       "transition-all",
       "duration-300"
-      // "outline",
-      // "outline-red-700"
     );
     const tagElement = document.createElement("p");
     tagElement.classList.add("font-semibold", "border-b", "border-white", "italic");
