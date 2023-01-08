@@ -25,6 +25,7 @@ class Relation {
 
 let selection = "";
 let inputTag = "";
+let inputRelation = "";
 let nodes = [];
 let relations = [];
 let selectedID = 0;
@@ -38,6 +39,7 @@ Office.onReady((info) => {
     //! document.getElementById("test").onclick = test;
     document.getElementById("add-node-button").onclick = addNode;
     document.getElementById("new-tag-input").onchange = updateInputTag;
+    document.getElementById("new-relation-input").onchange = updateInputRelation;
 
     //? eslint-disable-next-line no-undef
     //? setInterval(test2, 500);
@@ -114,6 +116,10 @@ function updateInputTag() {
   inputTag = document.getElementById("new-tag-input").value;
 }
 
+function updateInputRelation() {
+  inputRelation = document.getElementById("new-relation-input").value;
+}
+
 function addNode() {
   const min = 100000;
   const max = 999999;
@@ -162,7 +168,7 @@ function addNode() {
         //? The part where new relation is created
         element.parents.push(selectedID);
         nodes.find((node) => node.id === selectedID).children.push(element.id);
-        relations.push(new Relation(selectedID, element.id, "test"));
+        relations.push(new Relation(selectedID, element.id, inputRelation));
         selectedID = 0;
       }
 
