@@ -227,7 +227,7 @@ function generateRelations() {
     object1.innerHTML = parent.text;
     relationElement.appendChild(object1);
 
-    //? Generate Arrow
+    //? Generate Arrow SVG
     const arrowParent = document.createElement("div");
     arrowParent.classList.add("w-full", "border-b-2", "border-black", "my-auto", "relative");
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -245,6 +245,12 @@ function generateRelations() {
     svg.classList.add("absolute", "-right-1", "-top-2.5", "rotate-90");
     arrowParent.appendChild(svg);
     relationElement.appendChild(arrowParent);
+
+    //? Generate Text
+    const relationText = document.createElement("p");
+    relationText.classList.add("absolute", "-top-5", "left-2", "text-sm");
+    relationText.innerHTML = element.relation;
+    arrowParent.appendChild(relationText);
 
     //? Generate Object 2
     const object2 = document.createElement("div");
