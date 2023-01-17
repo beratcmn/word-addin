@@ -137,6 +137,7 @@ function addNode() {
     // nodeParent.innerHTML = nodeParent.innerHTML + newInner;
 
     const parentElement = document.createElement("div");
+    parentElement.id = element.id;
     parentElement.classList.add(
       "flex",
       "flex-col",
@@ -204,7 +205,56 @@ function addNode() {
 }
 
 function generateRelations() {
-  // new leader.LeaderLine(document.getElementById("start"), document.getElementById("end"));
+  const relationsParent = document.getElementById("relations-body");
+  relationsParent.innerHTML = "";
+
+  for (let i = 0; i < relations.length; i++) {
+    const element = relations[i];
+    const parent = nodes.find((node) => node.id === element.a);
+    const child = nodes.find((node) => node.id === element.b);
+
+    // const parentElement = document.getElementById("node-" + parent.id);
+    // const childElement = document.getElementById("node-" + child.id);
+
+    //? Generate Relation Element
+    const relationElement = document.createElement("div");
+    relationElement.classList.add("grid", "grid-cols-3", "w-full", "justify-between");
+
+    //? Generate Object 1
+    const object1 = document.createElement("div");
+    object1.id = parent.id;
+    object1.classList.add("px-2", "py-1", "bg-red-500", "rounded-lg", "text-white", "text-sm");
+    object1.innerHTML = parent.text;
+    relationElement.appendChild(object1);
+
+    //? Generate Arrow
+    const arrowParent = document.createElement("div");
+    arrowParent.classList.add("w-full", "border-b-2", "border-black", "my-auto", "relative");
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("width", "24");
+    svg.setAttribute("height", "24");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "2");
+    svg.setAttribute("fill", "black");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", "M24 22h-24l12-20z");
+    svg.appendChild(path);
+    svg.classList.add("absolute", "-right-1", "-top-2.5", "rotate-90");
+    arrowParent.appendChild(svg);
+    relationElement.appendChild(arrowParent);
+
+    //? Generate Object 2
+    const object2 = document.createElement("div");
+    object2.id = child.id;
+    object2.classList.add("px-2", "py-1", "bg-blue-500", "rounded-lg", "text-white", "text-sm");
+    object2.innerHTML = child.text;
+    relationElement.appendChild(object2);
+
+    relationsParent.appendChild(relationElement);
+  }
 }
 
 // export async function test2() {
