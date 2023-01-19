@@ -202,6 +202,14 @@ function addNode() {
   });
 
   // console.log(nodes);
+
+  try {
+    fetch("http://127.0.0.1:8000/")
+      .then((response) => response.text())
+      .then((text) => console.log(text));
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function generateRelations() {
