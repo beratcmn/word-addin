@@ -26,3 +26,13 @@
      `src/taskpane/taskpane.css`
    - JS dosyası da Add-In'in tüm fonksiyonlarını içeren dosya. <br>
      `src/taskpane/taskpane.js`
+
+# Git
+
+word-addin root klasörü içinde:
+
+1. Değişiklikleri almak için
+   git pull komunutunu kullanmalıyız.
+
+2. Branch değiştirmek için
+   git checkout graph-test

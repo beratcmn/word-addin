@@ -38,8 +38,9 @@ Office.onReady((info) => {
     //! document.getElementById("run").onclick = test;
     //! document.getElementById("test").onclick = test;
     document.getElementById("add-node-button").onclick = addNode;
-    document.getElementById("new-tag-input").onchange = updateInputTag;
-    document.getElementById("new-relation-input").onchange = updateInputRelation;
+    // document.getElementById("new-tag-input").onchange = updateInputTag;
+    // document.getElementById("new-relation-input").onchange = updateInputRelation;
+    document.getElementById("new-tag-and-relation-input").onchange = updateInputTagAndRelation;
 
     //? eslint-disable-next-line no-undef
     //? setInterval(test2, 500);
@@ -101,23 +102,20 @@ export async function test() {
 async function onSelection() {
   Office.context.document.getSelectedDataAsync(Office.CoercionType.Text, function (asyncResult) {
     if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-      document.getElementById("output-text").innerHTML = "Action failed. Error: " + asyncResult.error.message;
+      // document.getElementById("output-text").innerHTML = "Action failed. Error: " + asyncResult.error.message;
     } else {
       selection = asyncResult.value.trim();
       // inputTag = document.getElementById("new-tag-input").value;
-      document.getElementById("output-text").innerHTML = "" + selection;
+      // document.getElementById("output-text").innerHTML = "" + selection;
     }
   });
 
   await Office.context.sync();
 }
 
-function updateInputTag() {
-  inputTag = document.getElementById("new-tag-input").value;
-}
-
-function updateInputRelation() {
-  inputRelation = document.getElementById("new-relation-input").value;
+function updateInputTagAndRelation() {
+  inputTag = document.getElementById("new-tag-and-relation-input").value;
+  inputRelation = document.getElementById("new-tag-and-relation-input").value;
 }
 
 function addNode() {
@@ -147,7 +145,7 @@ function addNode() {
       "py-1",
       "rounded-md",
       "text-white",
-      "text-sm",
+      "text-xs",
       "cursor-pointer",
       "hover:bg-gray-600",
       "hover:shadow-md",
@@ -155,7 +153,7 @@ function addNode() {
       "duration-300"
     );
     const tagElement = document.createElement("p");
-    tagElement.classList.add("font-semibold", "border-b", "border-white", "italic");
+    tagElement.classList.add("font-semibold", "border-b", "border-white", "italic", "text-center");
     tagElement.innerHTML = element.tag;
     const textElement = document.createElement("p");
     textElement.innerHTML = element.text;
@@ -200,8 +198,6 @@ function addNode() {
 
     nodeParent.appendChild(parentElement);
   });
-
-  // console.log(nodes);
 
   try {
     fetch("http://127.0.0.1:8000/")
@@ -267,34 +263,8 @@ function generateRelations() {
     object2.innerHTML = child.text;
     relationElement.appendChild(object2);
 
+    relationElement.id = "relation-" + parent.id + "-" + child.id;
+
     relationsParent.appendChild(relationElement);
   }
 }
-
-// export async function test2() {
-//   return Word.run(async (context) => {
-//     context.document.getSelectedDataAsync(Office.CoercionType.Text, function (asyncResult) {
-//       if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-//         document.getElementById("output-text").innerHTML = "Action failed. Error: " + asyncResult.error.message;
-//         // write("Action failed. Error: " + asyncResult.error.message);
-//       } else {
-//         // write("Selected data: " + asyncResult.value);
-//         document.getElementById("output-text").innerHTML = "Selected data: " + asyncResult.value;
-//       }
-//     });
-
-//     await context.sync();
-//   });
-// }
-
-// async function test2() {
-//   Office.context.document.getSelectedDataAsync(Office.CoercionType.Text, function (asyncResult) {
-//     if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-//       document.getElementById("output-text").innerHTML = "Action failed. Error: " + asyncResult.error.message;
-//     } else {
-//       document.getElementById("output-text").innerHTML = "Selected text: " + asyncResult.value;
-//     }
-//   });
-
-//   await Office.context.sync();
-// }
