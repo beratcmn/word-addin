@@ -199,13 +199,35 @@ function addNode() {
     nodeParent.appendChild(parentElement);
   });
 
-  try {
-    fetch("http://127.0.0.1:8000/")
-      .then((response) => response.text())
-      .then((text) => console.log(text));
-  } catch (error) {
-    console.log(error);
-  }
+  // try {
+  //   fetch("http://127.0.0.1:8000/")
+  //     .then((response) => response.text())
+  //     .then((text) => console.log(text));
+  // } catch (error) {
+  //   console.log(error);
+  // }
+
+  document.getElementById("new-tag-and-relation-input").value = "";
+}
+
+function getRandomColor() {
+  const colors = [
+    "bg-red-600",
+    "bg-pink-600",
+    "bg-purple-600",
+    "bg-indigo-600",
+    "bg-blue-600",
+    "bg-cyan-600",
+    "bg-teal-600",
+    "bg-green-600",
+    "bg-lime-600",
+    "bg-yellow-600",
+    "bg-orange-600",
+    "bg-amber-600",
+    "bg-rose-600",
+  ];
+  const randomInt = Math.floor(Math.random() * colors.length);
+  return colors[randomInt];
 }
 
 function generateRelations() {
@@ -224,11 +246,38 @@ function generateRelations() {
     const relationElement = document.createElement("div");
     relationElement.classList.add("grid", "grid-cols-3", "w-full", "justify-between");
 
+    const close_button = document.createElement("div");
+    close_button.classList.add(
+      "w-4",
+      "h-4",
+      "bg-red-500",
+      "rounded-full",
+      "text-white",
+      "text-xs",
+      "text-center",
+      "cursor-pointer",
+      "absolute",
+      "right-2",
+      "hover:bg-red-600"
+    );
+    close_button.innerHTML = "X";
+    close_button.onclick = function () {
+      relations.splice(i, 1);
+      parent.children.splice(parent.children.indexOf(child.id), 1);
+      child.parents.splice(child.parents.indexOf(parent.id), 1);
+      generateRelations();
+    };
+    relationElement.appendChild(close_button);
+
     //? Generate Object 1
     const object1 = document.createElement("div");
+    const object1_text = document.createElement("p");
+    object1.appendChild(object1_text);
     object1.id = parent.id;
-    object1.classList.add("px-2", "py-1", "bg-red-500", "rounded-lg", "text-white", "text-sm");
-    object1.innerHTML = parent.text;
+    object1.classList.add("px-1", "py-0.5", getRandomColor(), "rounded-lg", "text-white", "text-xs", "flex");
+    object1_text.classList.add("my-auto", "text-center", "w-full");
+    object1_text.innerHTML = parent.text;
+    // object1.innerHTML = parent.text;
     relationElement.appendChild(object1);
 
     //? Generate Arrow SVG
@@ -258,9 +307,13 @@ function generateRelations() {
 
     //? Generate Object 2
     const object2 = document.createElement("div");
+    const object2_text = document.createElement("p");
+    object2.appendChild(object2_text);
     object2.id = child.id;
-    object2.classList.add("px-2", "py-1", "bg-blue-500", "rounded-lg", "text-white", "text-sm");
-    object2.innerHTML = child.text;
+    object2.classList.add("px-1", "py-0.5", getRandomColor(), "rounded-lg", "text-white", "text-xs", "flex");
+    object2_text.classList.add("my-auto", "text-center", "w-full");
+    object2_text.innerHTML = child.text;
+    // object2.innerHTML = child.text;
     relationElement.appendChild(object2);
 
     relationElement.id = "relation-" + parent.id + "-" + child.id;
