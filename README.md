@@ -36,3 +36,7 @@ word-addin root klasörü içinde:
 
 2. Branch değiştirmek için
    git checkout graph-test
+
+# Başlık değiştirme
+
+manifest.xml > <DisplayName DefaultValue="Objects"/>

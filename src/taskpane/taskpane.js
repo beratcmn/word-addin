@@ -53,9 +53,13 @@ Office.onReady((info) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
-        }).then((response) => response.text());
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById("response-text").innerHTML = data.message; //JSON.stringify(data)
+          });
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     };
 
@@ -190,16 +194,21 @@ function addNode() {
       }
 
       //? Add Relation Pop-up
+      const app_body = document.getElementById("app-body");
       if (selectedID === 0) {
         // console.log("popup should be hidden");
-        nodeParent.removeChild(relationPopUp);
+        app_body.removeChild(relationPopUp);
       } else {
         // console.log("popup should be visible");
         relationPopUp = document.createElement("div");
         relationPopUp.classList.add(
           "absolute",
-          "bottom-2",
-          "left-8",
+          "w-2/3",
+          "z-50",
+          "bottom-1/3",
+          // "left-0",
+          "left-14",
+          // "right-1/2",
           "bg-green-500",
           "p-2",
           "text-base",
@@ -207,7 +216,7 @@ function addNode() {
           "rounded-lg"
         );
         relationPopUp.innerHTML = "Select another node to create a relation!";
-        nodeParent.appendChild(relationPopUp);
+        app_body.appendChild(relationPopUp);
       }
 
       // console.log(relations);
