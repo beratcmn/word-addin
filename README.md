@@ -39,4 +39,4 @@ word-addin root klasörü içinde:
 
 # Başlık değiştirme
 
-manifest.xml > <DisplayName DefaultValue="Objects"/>
+manifest.xml > `<DisplayName DefaultValue="Objects"/>`
