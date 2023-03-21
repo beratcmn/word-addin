@@ -15,10 +15,21 @@ class Node {
   }
 }
 
+class Relation {
+  constructor(a, b, relation) {
+    this.a = a;
+    this.b = b;
+    this.relation = relation;
+  }
+}
+
 let selection = "";
 let inputTag = "";
+let inputRelation = "";
 let nodes = [];
+let relations = [];
 let selectedID = 0;
+let relationPopUp;
 
 Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
@@ -27,7 +38,26 @@ Office.onReady((info) => {
     //! document.getElementById("run").onclick = test;
     //! document.getElementById("test").onclick = test;
     document.getElementById("add-node-button").onclick = addNode;
-    document.getElementById("new-tag-input").onchange = updateInputTag;
+    // document.getElementById("new-tag-input").onchange = updateInputTag;
+    // document.getElementById("new-relation-input").onchange = updateInputRelation;
+    document.getElementById("new-tag-and-relation-input").onchange = updateInputTagAndRelation;
+
+    //? Reqeust test
+    document.getElementById("recommend-button").onclick = function () {
+      try {
+        let data = { nodes: nodes, relations: relations };
+
+        fetch("http://127.0.0.1:8000/test", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }).then((response) => response.text());
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
     //? eslint-disable-next-line no-undef
     //? setInterval(test2, 500);
@@ -89,19 +119,20 @@ export async function test() {
 async function onSelection() {
   Office.context.document.getSelectedDataAsync(Office.CoercionType.Text, function (asyncResult) {
     if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-      document.getElementById("output-text").innerHTML = "Action failed. Error: " + asyncResult.error.message;
+      // document.getElementById("output-text").innerHTML = "Action failed. Error: " + asyncResult.error.message;
     } else {
       selection = asyncResult.value.trim();
       // inputTag = document.getElementById("new-tag-input").value;
-      document.getElementById("output-text").innerHTML = "" + selection;
+      // document.getElementById("output-text").innerHTML = "" + selection;
     }
   });
 
   await Office.context.sync();
 }
 
-function updateInputTag() {
-  inputTag = document.getElementById("new-tag-input").value;
+function updateInputTagAndRelation() {
+  inputTag = document.getElementById("new-tag-and-relation-input").value;
+  inputRelation = document.getElementById("new-tag-and-relation-input").value;
 }
 
 function addNode() {
@@ -121,25 +152,25 @@ function addNode() {
     // nodeParent.innerHTML = nodeParent.innerHTML + newInner;
 
     const parentElement = document.createElement("div");
+    parentElement.id = element.id;
     parentElement.classList.add(
       "flex",
       "flex-col",
       "h-fit",
       "bg-gray-800",
-      "px-3",
-      "py-2",
+      "px-1",
+      "py-1",
       "rounded-md",
       "text-white",
+      "text-xs",
       "cursor-pointer",
       "hover:bg-gray-600",
       "hover:shadow-md",
       "transition-all",
       "duration-300"
-      // "outline",
-      // "outline-red-700"
     );
     const tagElement = document.createElement("p");
-    tagElement.classList.add("font-semibold", "border-b", "border-white", "italic");
+    tagElement.classList.add("font-semibold", "border-b", "border-white", "italic", "text-center");
     tagElement.innerHTML = element.tag;
     const textElement = document.createElement("p");
     textElement.innerHTML = element.text;
@@ -150,44 +181,152 @@ function addNode() {
       if (selectedID === 0) {
         selectedID = element.id;
       } else {
+        //? The part where new relation is created
         element.parents.push(selectedID);
         nodes.find((node) => node.id === selectedID).children.push(element.id);
+        relations.push(new Relation(selectedID, element.id, inputRelation));
+        generateRelations();
         selectedID = 0;
       }
 
-      console.log(nodes);
+      //? Add Relation Pop-up
+      if (selectedID === 0) {
+        // console.log("popup should be hidden");
+        nodeParent.removeChild(relationPopUp);
+      } else {
+        // console.log("popup should be visible");
+        relationPopUp = document.createElement("div");
+        relationPopUp.classList.add(
+          "absolute",
+          "bottom-2",
+          "left-8",
+          "bg-green-500",
+          "p-2",
+          "text-base",
+          "text-white",
+          "rounded-lg"
+        );
+        relationPopUp.innerHTML = "Select another node to create a relation!";
+        nodeParent.appendChild(relationPopUp);
+      }
+
+      // console.log(relations);
     };
 
     nodeParent.appendChild(parentElement);
   });
 
-  // console.log(nodes);
+  document.getElementById("new-tag-and-relation-input").value = "";
 }
 
-// export async function test2() {
-//   return Word.run(async (context) => {
-//     context.document.getSelectedDataAsync(Office.CoercionType.Text, function (asyncResult) {
-//       if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-//         document.getElementById("output-text").innerHTML = "Action failed. Error: " + asyncResult.error.message;
-//         // write("Action failed. Error: " + asyncResult.error.message);
-//       } else {
-//         // write("Selected data: " + asyncResult.value);
-//         document.getElementById("output-text").innerHTML = "Selected data: " + asyncResult.value;
-//       }
-//     });
+function getRandomColor() {
+  const colors = [
+    "bg-red-600",
+    "bg-pink-600",
+    "bg-purple-600",
+    "bg-indigo-600",
+    "bg-blue-600",
+    "bg-cyan-600",
+    "bg-teal-600",
+    "bg-green-600",
+    "bg-lime-600",
+    "bg-yellow-600",
+    "bg-orange-600",
+    "bg-amber-600",
+    "bg-rose-600",
+  ];
+  const randomInt = Math.floor(Math.random() * colors.length);
+  return colors[randomInt];
+}
 
-//     await context.sync();
-//   });
-// }
+function generateRelations() {
+  const relationsParent = document.getElementById("relations-body");
+  relationsParent.innerHTML = "";
 
-// async function test2() {
-//   Office.context.document.getSelectedDataAsync(Office.CoercionType.Text, function (asyncResult) {
-//     if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-//       document.getElementById("output-text").innerHTML = "Action failed. Error: " + asyncResult.error.message;
-//     } else {
-//       document.getElementById("output-text").innerHTML = "Selected text: " + asyncResult.value;
-//     }
-//   });
+  for (let i = 0; i < relations.length; i++) {
+    const element = relations[i];
+    const parent = nodes.find((node) => node.id === element.a);
+    const child = nodes.find((node) => node.id === element.b);
 
-//   await Office.context.sync();
-// }
+    // const parentElement = document.getElementById("node-" + parent.id);
+    // const childElement = document.getElementById("node-" + child.id);
+
+    //? Generate Relation Element
+    const relationElement = document.createElement("div");
+    relationElement.classList.add("grid", "grid-cols-3", "w-full", "justify-between");
+
+    const close_button = document.createElement("div");
+    close_button.classList.add(
+      "w-4",
+      "h-4",
+      "bg-red-500",
+      "rounded-full",
+      "text-white",
+      "text-xs",
+      "text-center",
+      "cursor-pointer",
+      "absolute",
+      "right-2",
+      "hover:bg-red-600"
+    );
+    close_button.innerHTML = "X";
+    close_button.onclick = function () {
+      relations.splice(i, 1);
+      parent.children.splice(parent.children.indexOf(child.id), 1);
+      child.parents.splice(child.parents.indexOf(parent.id), 1);
+      generateRelations();
+    };
+    relationElement.appendChild(close_button);
+
+    //? Generate Object 1
+    const object1 = document.createElement("div");
+    const object1_text = document.createElement("p");
+    object1.appendChild(object1_text);
+    object1.id = parent.id;
+    object1.classList.add("px-1", "py-0.5", getRandomColor(), "rounded-lg", "text-white", "text-xs", "flex");
+    object1_text.classList.add("my-auto", "text-center", "w-full");
+    object1_text.innerHTML = parent.text;
+    // object1.innerHTML = parent.text;
+    relationElement.appendChild(object1);
+
+    //? Generate Arrow SVG
+    const arrowParent = document.createElement("div");
+    arrowParent.classList.add("w-full", "border-b-2", "border-black", "my-auto", "relative");
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("width", "24");
+    svg.setAttribute("height", "24");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "2");
+    svg.setAttribute("fill", "black");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", "M24 22h-24l12-20z");
+    svg.appendChild(path);
+    svg.classList.add("absolute", "-right-1", "-top-2.5", "rotate-90");
+    arrowParent.appendChild(svg);
+    relationElement.appendChild(arrowParent);
+
+    //? Generate Text
+    const relationText = document.createElement("p");
+    relationText.classList.add("absolute", "-top-5", "left-2", "text-sm");
+    relationText.innerHTML = element.relation;
+    arrowParent.appendChild(relationText);
+
+    //? Generate Object 2
+    const object2 = document.createElement("div");
+    const object2_text = document.createElement("p");
+    object2.appendChild(object2_text);
+    object2.id = child.id;
+    object2.classList.add("px-1", "py-0.5", getRandomColor(), "rounded-lg", "text-white", "text-xs", "flex");
+    object2_text.classList.add("my-auto", "text-center", "w-full");
+    object2_text.innerHTML = child.text;
+    // object2.innerHTML = child.text;
+    relationElement.appendChild(object2);
+
+    relationElement.id = "relation-" + parent.id + "-" + child.id;
+
+    relationsParent.appendChild(relationElement);
+  }
+}
