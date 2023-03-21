@@ -32,10 +32,10 @@
 word-addin root klasörü içinde:
 
 1. Değişiklikleri almak için
-   git pull komunutunu kullanmalıyız.
+   `git pull`
 
 2. Branch değiştirmek için
-   git checkout graph-test
+   `git checkout graph-test`
 
 # Başlık değiştirme
 
