@@ -42,6 +42,23 @@ Office.onReady((info) => {
     // document.getElementById("new-relation-input").onchange = updateInputRelation;
     document.getElementById("new-tag-and-relation-input").onchange = updateInputTagAndRelation;
 
+    //? Reqeust test
+    document.getElementById("recommend-button").onclick = function () {
+      try {
+        let data = { nodes: nodes, relations: relations };
+
+        fetch("http://127.0.0.1:8000/test", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }).then((response) => response.text());
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     //? eslint-disable-next-line no-undef
     //? setInterval(test2, 500);
 
@@ -198,20 +215,6 @@ function addNode() {
 
     nodeParent.appendChild(parentElement);
   });
-
-  try {
-    let data = { tag: inputTag, text: selection };
-
-    fetch("http://127.0.0.1:8000/test", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    }).then((response) => response.text());
-  } catch (error) {
-    console.log(error);
-  }
 
   document.getElementById("new-tag-and-relation-input").value = "";
 }

@@ -3,9 +3,23 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 
-class TestObject(BaseModel):
+class Node(BaseModel):
     tag: str
     text: str
+    id: int
+    parents: list = []  # ? id list
+    children: list = []  # ? id list
+
+
+class Relation(BaseModel):
+    a: int  # ? id
+    b: int  # ? id
+    relation: str
+
+
+class Objects(BaseModel):
+    nodes: list = []
+    relations: list = []
 
 
 app = FastAPI()
@@ -27,8 +41,9 @@ async def main():
 
 
 @app.post("/test")
-async def test(object: TestObject):
-    print({object.tag: object.text})
-    return {object.tag: object.text}
+async def test(objects: Objects):
+    print(objects)
+    # return {object.tag: object.text}
+    return None
 
 # ? uvicorn main:app --reload
