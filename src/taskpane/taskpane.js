@@ -30,6 +30,8 @@ let nodes = [];
 let relations = [];
 let selectedID = 0;
 let relationPopUp;
+let auto_connect = false;
+let documentText = "";
 
 Office.onReady((info) => {
   if (info.host === Office.HostType.Word) {
@@ -42,25 +44,73 @@ Office.onReady((info) => {
     // document.getElementById("new-relation-input").onchange = updateInputRelation;
     document.getElementById("new-tag-and-relation-input").onchange = updateInputTagAndRelation;
 
-    //? Reqeust test
+    //? Recommend request
     document.getElementById("recommend-button").onclick = function () {
       try {
-        let data = { nodes: nodes, relations: relations };
-
-        fetch("http://127.0.0.1:8000/test", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            document.getElementById("response-text").innerHTML = data.message; //JSON.stringify(data)
+        Word.run(function (context) {
+          var body = context.document.body;
+          body.load("text");
+          return context.sync().then(function () {
+            documentText = body.text;
           });
+        }).then(function () {
+          let data = { nodes: nodes, relations: relations, documentText: documentText };
+
+          fetch("http://127.0.0.1:8000/recommendation", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              document.getElementById("response-text").innerHTML = data.recommendation; //JSON.stringify(data)
+            });
+        });
       } catch (error) {
         // console.log(error);
       }
+    };
+
+    //?  Connect request
+    document.getElementById("connect-button").onclick = function () {
+      auto_connect = !auto_connect;
+
+      Word.run(function (context) {
+        var body = context.document.body;
+        body.load("text");
+        return context.sync().then(function () {
+          documentText = body.text;
+        });
+      }).then(function () {
+        if (auto_connect) {
+          document.getElementById("connect-button").innerHTML = "Disconnect";
+          document.getElementById("connect-button").classList.remove("bg-orange-500/70");
+          document.getElementById("connect-button").classList.add("bg-blue-500/70");
+
+          setInterval(function () {
+            if (auto_connect == false) return;
+            try {
+              let data = { nodes: nodes, relations: relations, documentText: documentText };
+
+              fetch("http://127.0.0.1:8000/connect", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+              });
+            } catch (error) {
+              // console.log(error);
+            }
+          }, 2000);
+        } else {
+          document.getElementById("connect-button").innerHTML = "Connect";
+          document.getElementById("connect-button").classList.remove("bg-blue-500/70");
+          document.getElementById("connect-button").classList.add("bg-orange-500/70");
+        }
+      });
     };
 
     //? eslint-disable-next-line no-undef
