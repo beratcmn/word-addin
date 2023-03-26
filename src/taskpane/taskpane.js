@@ -56,7 +56,7 @@ Office.onReady((info) => {
         }).then(function () {
           let data = { nodes: nodes, relations: relations, documentText: documentText };
 
-          fetch("http://127.0.0.1:8000/recommendation", {
+          fetch("https://127.0.0.1:8000/recommendation", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -94,7 +94,7 @@ Office.onReady((info) => {
             try {
               let data = { nodes: nodes, relations: relations, documentText: documentText };
 
-              fetch("http://127.0.0.1:8000/connect", {
+              fetch("https://127.0.0.1:8000/connect", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -351,7 +351,7 @@ function generateRelations() {
     //? Generate Arrow SVG
     const arrowParent = document.createElement("div");
     arrowParent.classList.add("w-full", "border-b-2", "border-black", "my-auto", "relative");
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const svg = document.createElementNS("https://www.w3.org/2000/svg", "svg");
     svg.setAttribute("viewBox", "0 0 24 24");
     svg.setAttribute("width", "24");
     svg.setAttribute("height", "24");
@@ -360,7 +360,7 @@ function generateRelations() {
     svg.setAttribute("fill", "black");
     svg.setAttribute("stroke-linecap", "round");
     svg.setAttribute("stroke-linejoin", "round");
-    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    const path = document.createElementNS("https://www.w3.org/2000/svg", "path");
     path.setAttribute("d", "M24 22h-24l12-20z");
     svg.appendChild(path);
     svg.classList.add("absolute", "-right-1", "-top-2.5", "rotate-90");
