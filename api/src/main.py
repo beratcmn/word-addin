@@ -21,6 +21,12 @@ class Relation(BaseModel):
 class Object(BaseModel):
     nodes: list = []
     relations: list = []
+    documentText: str = ""
+
+    def findNode(self, id):
+        for i in self.nodes:
+            if i["id"] == id:
+                return i
 
 
 app = FastAPI()
@@ -50,8 +56,9 @@ async def main():
     return {"message": "Hello World"}
 
 
-@app.post("/test")
-async def test(objects: Object):
+#! Asıl çalılacak yer
+@app.post("/recommendation")
+async def recommend(objects: Object):
 
     # ? Objeler ile burada istenilen yapılabilir
     # print(objects.nodes[0])
@@ -63,7 +70,45 @@ async def test(objects: Object):
 
     # ? Response
     headers = {"Access-Control-Allow-Credentials": "true", "Access-Control-Allow-Origin": "*"}
-    content = {"message": "Hello World"}  # ! EKRANA BASILACAK YER
+
+    # name1 = ""
+    # name2 = ""
+
+    # for i in objects.nodes:
+    #     if i["id"] == objects.relations[0]["a"]:
+    #         name1 = i["text"]
+    #         break
+
+    # for i in objects.nodes:
+    #     if i["id"] == objects.relations[0]["b"]:
+    #         name2 = i["text"]
+    #         break
+
+    name1 = objects.findNode(objects.relations[1]["a"])["text"]
+    name2 = objects.findNode(objects.relations[1]["b"])["text"]
+
+    # text = objects.relations[0]["a"] + "--- " + objects.relations[0]["relation"] + " ---" + objects.relations[0]["b"]
+    text = name1 + " --- " + objects.relations[1]["relation"] + " --- " + \
+        name2 + "<br>" + objects.nodes[0]["tag"] + " " + objects.nodes[0]["text"] + "<br>" + objects.documentText[0:10]
+    content = {"recommendation": str(text)}  # ! EKRANA BASILACAK YER
+
     return JSONResponse(content=content, headers=headers)
 
-# ? uvicorn main:app --reload
+
+#! Girdi yapılan yer
+@app.post("/connect")
+async def connect(objects: Object):
+
+    with open("recommendation.txt", "w") as f:
+        f.write(str(objects.documentText))
+        f.close()
+
+    # ? Objeler ile burada istenilen yapılabilir
+    # print(objects.nodes[0])
+    # for i in objects.nodes:
+    # if i["id"] == 872519:
+    # break
+    #
+    # print(i["text"])
+
+    # ? uvicorn main:app --reload
