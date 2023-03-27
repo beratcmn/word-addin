@@ -1,0 +1,136 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!-- This file shows how to design a first-run page that provides a welcome screen to the user about the features of the add-in. -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contoso Task Pane Add-in</title>
+
+    <!-- Tailwind JS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- LeaderLine Library -->
+    <!-- <script src="../leader-line.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/arrow-line/dist/arrow-line.min.js"></script>
+
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+
+    <!-- For more information on Fluent UI, visit https://developer.microsoft.com/fluentui#/. -->
+    <link rel="stylesheet"
+        href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />
+
+    <!-- Template styles -->
+    <link href="taskpane.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body class="h-screen">
+
+    <div class="w-full h-full overflow-hidden">
+
+        <section id="sideload-msg" class="ms-welcome__main">
+            <h2 class="ms-font-xl">Please sideload your add-in to see app body.</h2>
+        </section>
+
+        <main id="app-body" class="w-full h-full relative">
+
+            <!-- Section 1 -->
+            <div class="h-full w-full #bg-blue-500/20 flex flex-col">
+
+                <!--? Current Nodes -->
+                <div id="nodes"
+                    class="h-full w-full flex flex-wrap gap-x-3 gap-y-2 px-2 py-2 content-start overflow-y-auto relative">
+
+                </div>
+
+
+                <div id="relations" class="h-full w-full flex flex-col #bg-green-500/20 px-2 py-2">
+                    <!-- <h4 class="font-semibold text-lg underline">Relations</h4> -->
+
+                    <!--? Relations -->
+                    <div id="relations-body" class="flex flex-col gap-y-2 px-1 py-2 overflow-y-auto">
+
+                        <!--? Relation Element -->
+                        <!-- <div class="grid grid-cols-3 w-full justify-between">
+    
+                            <div class="w-5 h-5 bg-orange-500 absolute right-0"></div>
+    
+                            <div id="123321" class="px-3 py-2 bg-red-500 rounded-lg text-white">Deneme 1</div>
+    
+                            <div class="w-full border-b-2 border-black my-auto relative">
+                                <p class="absolute -top-5 left-2 text-sm">relation</p>
+                                <svg class="absolute -right-1 -top-2.5 rotate-90" xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" viewBox="0 0 24 24">
+                                    <path d="M24 22h-24l12-20z" />
+                                </svg>
+                            </div>
+    
+                            <div id="456654" class="px-3 py-2 bg-red-500 rounded-lg text-white">Deneme 2</div>
+    
+                        </div> -->
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!--? Input and Button -->
+                <div
+                    class="mt-auto w-full h-40 #bg-red-500/30 flex flex-col gap-y-2 items-center justify-end px-5 py-2">
+
+                    <!-- <p class="text-base text-gray-900" id="output-text"></p> -->
+
+                    <div class="w-full flex flex-row gap-x-2">
+                        <!-- <input id="new-tag-input" type="text" placeholder="Enter Tag"
+                            class="w-full h-10 p-2 outline-none rounded-xl">
+
+                        <input id="new-relation-input" type="text" placeholder="Enter Relation"
+                            class="w-full h-10 p-2 outline-none rounded-xl"> -->
+
+                        <input id="new-tag-and-relation-input" type="text" placeholder="Enter Prompt"
+                            class="w-full h-10 p-2 outline-none rounded-xl">
+                    </div>
+
+                    <button id="add-node-button" type="button"
+                        class="w-full bg-blue-500 rounded-xl text-white text-sm h-8 hover:bg-blue-700 transition-all duration-300">
+                        Enter
+                    </button>
+
+                </div>
+
+                <div class="w-full h-80 px-5 mb-2">
+
+                    <div class="w-full h-full bg-red-500/30 rounded-xl overflow-y-auto px-2 py-1">
+                        <p id="response-text" class="text-sm text-gray-700">
+                            <!-- deneme -->
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="h-16 w-full flex flex-row gap-x-2 mt-auto px-5">
+
+                    <button id="recommend-button"
+                        class="h-full w-full bg-orange-500/70 text-sm text-white rounded-xl hover:bg-orange-500 transition-all duration-300">Recommend</button>
+
+                    <button id="connect-button"
+                        class="h-full w-full bg-orange-500/70 text-sm text-white rounded-xl hover:bg-orange-500 transition-all duration-300">Connect</button>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+</body>
+
+</html>

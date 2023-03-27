@@ -30,7 +30,7 @@
 
 </head>
 
-<body class="h-screen py-2">
+<body class="h-screen">
 
     <section id="sideload-msg" class="ms-welcome__main">
         <h2 class="ms-font-xl">Please sideload your add-in to see app body.</h2>
@@ -41,12 +41,12 @@
 
         <!--? Nodes -->
         <div id="nodes"
-            class="h-[30%] w-full flex flex-wrap gap-x-3 gap-y-2 px-2 py-2 content-start overflow-y-auto relative">
+            class="bg-red-500/20 h-1/4 w-full flex flex-wrap gap-x-3 gap-y-2 px-2 py-2 content-start overflow-y-auto relative">
         </div>
 
 
         <!--? Relations -->
-        <div id="relations" class="h-[30%] w-full flex flex-col px-2 py-2">
+        <div id="relations" class="bg-green-500/20 h-1/4 w-full flex flex-col px-2 py-2">
 
             <!--? Relations body -->
             <div id="relations-body" class="flex flex-col gap-y-2 px-1 py-2 overflow-y-auto">
@@ -57,7 +57,9 @@
 
 
         <!--? Input and Button -->
-        <div class="w-full h-[15%] flex flex-col gap-y-2 items-center justify-center px-5 py-2">
+        <div class="w-full h-40 bg-red-500/30 flex flex-col gap-y-2 items-center justify-end px-5 py-2">
+
+            <!-- <p class="text-base text-gray-900" id="output-text"></p> -->
 
             <div class="w-full flex flex-row gap-x-2">
                 <input id="new-tag-and-relation-input" type="text" placeholder="Enter Prompt"
@@ -68,32 +70,6 @@
                 class="w-full bg-blue-500 rounded-xl text-white text-sm h-8 hover:bg-blue-700 transition-all duration-300">
                 Enter
             </button>
-
-        </div>
-
-
-        <!--? Recommendations -->
-        <div class="w-full h-[25%] flex flex-col gap-y-2 mb-auto">
-
-            <!--? Recommendation box -->
-            <div class="w-full h-5/6 px-4 mt-4">
-                <div class="w-full h-full bg-red-500/30 rounded-xl overflow-y-auto px-2 py-1">
-                    <p id="response-text" class="text-sm text-gray-700">
-                        <!-- deneme -->
-                    </p>
-                </div>
-            </div>
-
-            <!--? Buttons -->
-            <div class="h-1/6 w-full flex flex-row gap-x-2 px-5">
-
-                <button id="recommend-button"
-                    class="h-full w-full bg-orange-500/70 text-sm text-white rounded-xl hover:bg-orange-500 transition-all duration-300">Recommend</button>
-
-                <button id="connect-button"
-                    class="h-full w-full bg-orange-500/70 text-sm text-white rounded-xl hover:bg-orange-500 transition-all duration-300">Connect</button>
-
-            </div>
 
         </div>
 

@@ -257,7 +257,7 @@ function addNode() {
           "absolute",
           "w-2/3",
           "z-50",
-          "bottom-1/3",
+          "bottom-[40%]",
           // "left-0",
           "left-14",
           // "right-1/2",
@@ -314,21 +314,22 @@ function generateRelations() {
 
     //? Generate Relation Element
     const relationElement = document.createElement("div");
-    relationElement.classList.add("grid", "grid-cols-3", "w-full", "justify-between");
+    relationElement.classList.add("grid", "grid-cols-3", "w-full", "justify-between", "relative");
 
     const close_button = document.createElement("div");
     close_button.classList.add(
       "w-4",
       "h-4",
-      "bg-red-500",
+      "bg-red-700",
       "rounded-full",
       "text-white",
       "text-xs",
       "text-center",
       "cursor-pointer",
       "absolute",
-      "right-2",
-      "hover:bg-red-600"
+      "-left-1",
+      "-top-1",
+      "hover:bg-red-500"
     );
     close_button.innerHTML = "X";
     close_button.onclick = function () {
