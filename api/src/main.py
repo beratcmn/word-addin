@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
+from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 
 
 class Node(BaseModel):
@@ -49,6 +50,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# app.add_middleware(HTTPSRedirectMiddleware)
 
 
 @app.get("/")
