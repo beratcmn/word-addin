@@ -62,7 +62,7 @@ Office.onReady((info) => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(data),
-            mode: "cors",
+            // mode: "cors",
           })
             .then((response) => response.json())
             .then((data) => {
@@ -101,7 +101,7 @@ Office.onReady((info) => {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify(data),
-                mode: "cors",
+                // mode: "cors",
               });
             } catch (error) {
               // console.log(error);

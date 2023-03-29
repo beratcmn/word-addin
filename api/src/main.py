@@ -87,11 +87,11 @@ async def recommend(objects: Object):
     #         name2 = i["text"]
     #         break
 
-    name1 = objects.findNode(objects.relations[1]["a"])["text"]
-    name2 = objects.findNode(objects.relations[1]["b"])["text"]
+    name1 = objects.findNode(objects.relations[0]["a"])["text"]
+    name2 = objects.findNode(objects.relations[0]["b"])["text"]
 
     # text = objects.relations[0]["a"] + "--- " + objects.relations[0]["relation"] + " ---" + objects.relations[0]["b"]
-    text = name1 + " --- " + objects.relations[1]["relation"] + " --- " + \
+    text = name1 + " --- " + objects.relations[0]["relation"] + " --- " + \
         name2 + "<br>" + objects.nodes[0]["tag"] + " " + objects.nodes[0]["text"] + "<br>" + objects.documentText[0:10]
     content = {"recommendation": str(text)}  # ! EKRANA BASILACAK YER
 
